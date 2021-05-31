@@ -100,7 +100,7 @@ def main(_argv):
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             image = Image.fromarray(frame)
         else:
-            print('Video has ended or failed, try a different video format!')
+            logging.info('Empty frame')
             break
         frame_num +=1
         print('Frame #: ', frame_num)
@@ -234,7 +234,7 @@ def main(_argv):
             out.write(result)
         if cv2.waitKey(1) & 0xFF == ord('q'): break
     logging.info("stopping the timer")
-    end = time.time
+    end = time.time()
     print("Time taken",end-start)
     cv2.destroyAllWindows()
 
