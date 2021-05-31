@@ -94,6 +94,8 @@ def main(_argv):
     # while video is running
     logging.info("started timer")
     start = time.time()
+    logging.info("created dict for recording")
+    objs = {}
     while True:
         return_value, frame = vid.read()
         if return_value:
@@ -218,6 +220,10 @@ def main(_argv):
 
         # if enable info flag then print details about each track
             if FLAGS.info:
+                if class_name in objs:
+                    objs[class_name].append(track.track_id)
+                else:
+                    objs[class_name] = [track.track_id]
                 print("Tracker ID: {}, Class: {},  BBox Coords (xmin, ymin, xmax, ymax): {}".format(str(track.track_id), class_name, (int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3]))))
 
         # calculate frames per second of running detections
