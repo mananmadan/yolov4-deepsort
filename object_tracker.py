@@ -221,7 +221,7 @@ def main(_argv):
         # if enable info flag then print details about each track
             if FLAGS.info:
                 if class_name in objs:
-                    if track.trackid not in objs[class_name]:
+                    if track.track_id not in objs[class_name]:
                         objs[class_name].append(track.track_id)
                 else:
                     objs[class_name] = [track.track_id]
