@@ -242,6 +242,9 @@ def main(_argv):
     logging.info("stopping the timer")
     end = time.time()
     print("Time taken",end-start)
+    logging.info("dict")
+    for i in objs:
+        print(objs[i])
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
