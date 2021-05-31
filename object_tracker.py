@@ -221,7 +221,8 @@ def main(_argv):
         # if enable info flag then print details about each track
             if FLAGS.info:
                 if class_name in objs:
-                    objs[class_name].append(track.track_id)
+                    if track.trackid not in objs[class_name]:
+                        objs[class_name].append(track.track_id)
                 else:
                     objs[class_name] = [track.track_id]
                 print("Tracker ID: {}, Class: {},  BBox Coords (xmin, ymin, xmax, ymax): {}".format(str(track.track_id), class_name, (int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3]))))
@@ -244,7 +245,7 @@ def main(_argv):
     print("Time taken",end-start)
     logging.info("dict")
     for i in objs:
-        print(objs[i])
+        print(i,":",objs[i])
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
