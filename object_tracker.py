@@ -92,6 +92,8 @@ def main(_argv):
 
     frame_num = 0
     # while video is running
+    logging.info("started timer")
+    start = time.time()
     while True:
         return_value, frame = vid.read()
         if return_value:
@@ -231,6 +233,9 @@ def main(_argv):
         if FLAGS.output:
             out.write(result)
         if cv2.waitKey(1) & 0xFF == ord('q'): break
+    logging.info("stopping the timer")
+    end = time.time
+    print("Time taken",end-start)
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
