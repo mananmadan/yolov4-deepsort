@@ -99,6 +99,7 @@ def main(_argv):
     start = time.time()
     logging.info("created dict for recording")
     objs = {}
+    dirs = {}
     while True:
         return_value, frame = vid.read()
         if return_value:
@@ -223,28 +224,27 @@ def main(_argv):
 
         # if enable info flag then print details and get store the dict
             if FLAGS.info:
+                ## class_name and track.track_id
+                a = int(bbox[0])
+                b = int(bbox[1])
+                c = int(bbox[2])
+                d = int(bbox[3])
+                img = frame[b:d,a:c,:]
+                tname = str(class_name)+str(track.track_id)
+                path = "segements/" + tname + "/"
+                fname = tname + ".jpg"
+                if path in dirs:
+                    cv2.imwrite(path + fname,img)
+                else:
+                    dirs[path] = 1
+                    os.mkdir(path)
+                    cv2.imwrite(path + fname,img)
+
                 if class_name in objs:
                     if track.track_id not in objs[class_name]: ## new id with a class
-                        print("Class",class_name)
-                        cv2_imshow(frame)
-                        a = int(bbox[0])
-                        b = int(bbox[1])
-                        c = int(bbox[2])
-                        d = int(bbox[3])
-                        img = frame[b:d,a:c,:]
-                        fname = "segements/" + str(class_name) + str(track.track_id) + ".jpg"
-                        cv2.imwrite(fname,img)
                         objs[class_name].append(track.track_id)
                 else: ## new class
-                    cv2_imshow(frame)
                     objs[class_name] = [track.track_id]
-                    a = int(bbox[0])
-                    b = int(bbox[1])
-                    c = int(bbox[2])
-                    d = int(bbox[3])
-                    img = frame[b:d,a:c,:]
-                    fname = "segements/"  + str(class_name) + str(track.track_id) + ".jpg"
-                    cv2.imwrite(fname,img)
                     #cv2_imshow(img)
                 print("Tracker ID: {}, Class: {},  BBox Coords (xmin, ymin, xmax, ymax): {}".format(str(track.track_id), class_name, (int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3]))))
 
