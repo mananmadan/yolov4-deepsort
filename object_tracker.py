@@ -232,7 +232,7 @@ def main(_argv):
                         c = int(bbox[2])
                         d = int(bbox[3])
                         img = frame[b:d,a:c,:]
-                        string fname = str(class_name) + str(track.track_id)
+                        fname = str(class_name) + str(track.track_id)
                         cv2_imwrite(fname,img)
                         objs[class_name].append(track.track_id)
                 else: ## new class
@@ -243,7 +243,7 @@ def main(_argv):
                     c = int(bbox[2])
                     d = int(bbox[3])
                     img = frame[b:d,a:c,:]
-                    string fname = str(class_name) + str(track.track_id)
+                    fname = str(class_name) + str(track.track_id)
                     cv2_imwrite(fname,img)
                     #cv2_imshow(img)
                 print("Tracker ID: {}, Class: {},  BBox Coords (xmin, ymin, xmax, ymax): {}".format(str(track.track_id), class_name, (int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3]))))
