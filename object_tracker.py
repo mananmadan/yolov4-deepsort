@@ -227,14 +227,24 @@ def main(_argv):
                     if track.track_id not in objs[class_name]: ## new id with a class
                         print("Class",class_name)
                         cv2_imshow(frame)
-                        img = frame[int(bbox[0]):int(bbox[1]),int(bbox[2]):int(bbox[3]),:]
-                        #cv2_imshow(img)
+                        a = int(bbox[0])
+                        b = int(bbox[1])
+                        c = int(bbox[2])
+                        d = int(bbox[3])
+                        img = frame[b:d,a:c,:]
+                        string fname = str(class_name) + str(track.track_id)
+                        cv2_imwrite(fname,img)
                         objs[class_name].append(track.track_id)
                 else: ## new class
                     cv2_imshow(frame)
                     objs[class_name] = [track.track_id]
-                    print("Class",class_name)
-                    img = frame[int(bbox[0]):int(bbox[1]),int(bbox[2]):int(bbox[3]),:]
+                    a = int(bbox[0])
+                    b = int(bbox[1])
+                    c = int(bbox[2])
+                    d = int(bbox[3])
+                    img = frame[b:d,a:c,:]
+                    string fname = str(class_name) + str(track.track_id)
+                    cv2_imwrite(fname,img)
                     #cv2_imshow(img)
                 print("Tracker ID: {}, Class: {},  BBox Coords (xmin, ymin, xmax, ymax): {}".format(str(track.track_id), class_name, (int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3]))))
 
