@@ -232,13 +232,14 @@ def main(_argv):
                 img = frame[b:d,a:c,:]
                 tname = str(class_name)+str(track.track_id)
                 path = "segements/" + tname + "/"
-                fname = tname + ".jpg"
+                fname = tname
                 if path in dirs:
-                    cv2.imwrite(path + fname,img)
+                    dirs[path] = dirs[path] + 1
+                    cv2.imwrite(path + fname + str(dirs[path]) + ".jpg",img)
                 else:
                     dirs[path] = 1
                     os.mkdir(path)
-                    cv2.imwrite(path + fname,img)
+                    cv2.imwrite(path + fname + str(dirs[path]) + ".jpg",img)
 
                 if class_name in objs:
                     if track.track_id not in objs[class_name]: ## new id with a class
