@@ -226,10 +226,12 @@ def main(_argv):
                 if class_name in objs:
                     if track.track_id not in objs[class_name]: ## new id with a class
                         print("Class",class_name)
+                        cv2_imshow(frame)
                         img = frame[int(bbox[0]):int(bbox[1]),int(bbox[2]):int(bbox[3]),:]
                         cv2_imshow(img)
                         objs[class_name].append(track.track_id)
                 else: ## new class
+                    cv2_imshow(frame)
                     objs[class_name] = [track.track_id]
                     print("Class",class_name)
                     img = frame[int(bbox[0]):int(bbox[1]),int(bbox[2]):int(bbox[3]),:]
