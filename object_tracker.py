@@ -232,7 +232,7 @@ def main(_argv):
                 else: ## new class
                     objs[class_name] = [track.track_id]
                     print("Class",class_name)
-                    img = frams[int(bbox[0]):int(bbox[1]),int(bbox[2]):int(bbox[3),:]
+                    img = frams[int(bbox[0]):int(bbox[1]),int(bbox[2]):int(bbox[3]),:]
                     cv2_imshow(img)
                 print("Tracker ID: {}, Class: {},  BBox Coords (xmin, ymin, xmax, ymax): {}".format(str(track.track_id), class_name, (int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3]))))
 
