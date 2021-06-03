@@ -23,6 +23,9 @@ from deep_sort import preprocessing, nn_matching
 from deep_sort.detection import Detection
 from deep_sort.tracker import Tracker
 from tools import generate_detections as gdet
+## will only work in colab
+from google.colab.patches import cv2_imshow
+
 flags.DEFINE_string('framework', 'tf', '(tf, tflite, trt')
 flags.DEFINE_string('weights', './checkpoints/yolov4-416',
                     'path to weights file')
@@ -218,13 +221,19 @@ def main(_argv):
             cv2.rectangle(frame, (int(bbox[0]), int(bbox[1]-30)), (int(bbox[0])+(len(class_name)+len(str(track.track_id)))*17, int(bbox[1])), color, -1)
             cv2.putText(frame, class_name + "-" + str(track.track_id),(int(bbox[0]), int(bbox[1]-10)),0, 0.75, (255,255,255),2)
 
-        # if enable info flag then print details about each track
+        # if enable info flag then print details and get store the dict
             if FLAGS.info:
                 if class_name in objs:
-                    if track.track_id not in objs[class_name]:
+                    if track.track_id not in objs[class_name]: ## new id with a class
+                        print("Class",class_name)
+                        img = frame[int(bbox[0]):int(bbox[1]),int(bbox[2]):int(bbox[3]),:]
+                        cv2_imshow(img)
                         objs[class_name].append(track.track_id)
-                else:
+                else: ## new class
                     objs[class_name] = [track.track_id]
+                    print("Class",class_name)
+                    img = frams[int(bbox[0]):int(bbox[1]),int(bbox[2]):int(bbox[3),:]
+                    cv2_imshow(img)
                 print("Tracker ID: {}, Class: {},  BBox Coords (xmin, ymin, xmax, ymax): {}".format(str(track.track_id), class_name, (int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3]))))
 
         # calculate frames per second of running detections
