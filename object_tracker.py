@@ -26,7 +26,7 @@ from tools import generate_detections as gdet
 ## will only work in colab
 from google.colab.patches import cv2_imshow
 ## import file for detections
-from DeepLogo.single_inf import main
+from single_inf import main
 
 flags.DEFINE_string('framework', 'tf', '(tf, tflite, trt')
 flags.DEFINE_string('weights', './checkpoints/yolov4-416',
