@@ -254,7 +254,7 @@ def main(_argv):
                     det[track.track_id] = [(logo,1)]
                 else:
                     found = 0
-                    for j in range(0,det[track.track_id]):
+                    for j in range(0,len(det[track.track_id])):
                         (lv,ind) =  det[track.track_id][j]
                         if lv == logo:
                             found = 1
