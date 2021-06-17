@@ -294,7 +294,11 @@ def main(_argv):
     print("Time taken", end-start)
     logging.info("dict")
     for i in objs:
-        print(i, ":", objs[i])
+        print("Object detected:",i)
+        for j in objs[i]:
+            print("Track id:",j)
+            for k in det[j]:
+                print("Detected:",k)
     cv2.destroyAllWindows()
 
 
