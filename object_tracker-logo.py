@@ -261,7 +261,7 @@ def main(_argv):
                             det[track.track_id][j] = (lv,ind+1)
                             break
                     if found == 0:
-                        det[track.track_id].append[(logo,1)]
+                        det[track.track_id].append((logo,1))
                              
                 tname = str(class_name)+str(track.track_id)
                 path = "segements/" + tname + "/"
