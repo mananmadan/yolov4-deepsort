@@ -1,4 +1,4 @@
-from single_inf import main_img
+from single_inf import main_img,pre
 from google.colab.patches import cv2_imshow
 from tools import generate_detections as gdet
 from deep_sort.tracker import Tracker
@@ -53,6 +53,7 @@ def main(_argv):
     max_cosine_distance = 0.4
     nn_budget = None
     nms_max_overlap = 1.0
+    (cat_indx,det_graph) = pre(model_name,label_map)
 
     # initialize deep sort
     model_filename = 'model_data/mars-small128.pb'
@@ -109,6 +110,7 @@ def main(_argv):
     logging.info("created dict for recording")
     objs = {}
     dirs = {}
+    det = {}
     while True:
         return_value, frame = vid.read()
         if return_value:
@@ -245,7 +247,12 @@ def main(_argv):
                 c = int(bbox[2])
                 d = int(bbox[3])
                 img = frame[b:d, a:c, :]
-                print("Detected:", main_img(model_name, label_map, img))
+                (logo,score) = main_img(cat_indx,det_graph,img)
+                print("Detected:",(logo,score))
+                if track.track_id not in det:
+                    det[track.track_id] = [logo]
+                else:
+                    det[track.track_id].append(logo)
                 tname = str(class_name)+str(track.track_id)
                 path = "segements/" + tname + "/"
                 fname = tname
