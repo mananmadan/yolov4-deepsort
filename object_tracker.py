@@ -26,8 +26,9 @@ from tools import generate_detections as gdet
 ## will only work in colab
 from google.colab.patches import cv2_imshow
 ## import file for detections
-from single_inf import main
-
+#from single_inf import main_img
+#model_name = "logos_inference_graph"
+#label_map = "flickr_logos_27_label_map.pbtxt"
 flags.DEFINE_string('framework', 'tf', '(tf, tflite, trt')
 flags.DEFINE_string('weights', './checkpoints/yolov4-416',
                     'path to weights file')
