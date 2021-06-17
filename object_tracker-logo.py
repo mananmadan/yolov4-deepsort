@@ -1,4 +1,5 @@
-from single_inf import main_img,pre
+from single_inf import main_img
+from single_inf import pre
 from google.colab.patches import cv2_imshow
 from tools import generate_detections as gdet
 from deep_sort.tracker import Tracker
