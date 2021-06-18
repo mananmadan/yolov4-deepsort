@@ -110,7 +110,7 @@ def main(_argv):
     start = time.time()
     logging.info("created dict for recording")
     objs = {}
-    dirs = {}
+    done = {}
     det = {}
     while True:
         return_value, frame = vid.read()
@@ -247,8 +247,16 @@ def main(_argv):
                 b = int(bbox[1])
                 c = int(bbox[2])
                 d = int(bbox[3])
+                if track.track_id in done:
+                    break
+
                 img = frame[b:d, a:c, :]
                 (logo,score) = main_img(cat_indx,det_graph,img)
+                #based on score check if it is done
+                if score > 0.7:
+                    if track.track_id not in done:
+                        done[track.track_id] = 1
+                
                 print("Detected:",(logo,score))
                 if track.track_id not in det:
                     det[track.track_id] = [(logo,1)]
@@ -262,18 +270,9 @@ def main(_argv):
                             break
                     if found == 0:
                         det[track.track_id].append((logo,1))
-                             
-                tname = str(class_name)+str(track.track_id)
-                path = "segements/" + tname + "/"
-                fname = tname
-                if path in dirs:
-                    dirs[path] = dirs[path] + 1
-                    cv2.imwrite(path + fname + str(dirs[path]) + ".jpg", img)
-                else:
-                    dirs[path] = 1
-                    os.mkdir(path)
-                    cv2.imwrite(path + fname + str(dirs[path]) + ".jpg", img)
 
+                            
+                
                 if class_name in objs:
                     # new id with a class
                     if track.track_id not in objs[class_name]:
