@@ -313,9 +313,7 @@ def main(_argv):
     for i in done:
         print("i:",i,"done[i]:",done[i])
     
-
-
-    print("frames per second",fcount/(end-start))
+    print("frames per second",frame_num/(end-start))
     cv2.destroyAllWindows()
 
 
