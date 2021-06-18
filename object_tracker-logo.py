@@ -255,7 +255,7 @@ def main(_argv):
                 #based on score check if it is done
                 if score > 0.7:
                     if track.track_id not in done:
-                        done[track.track_id] = 1
+                        done[track.track_id] = (logo,score)
                 
                 print("Detected:",(logo,score))
                 if track.track_id not in det:
@@ -307,6 +307,9 @@ def main(_argv):
             print("Track id:",j)
             for k in det[j]:
                 print("Detected:",k)
+    
+    for i in done:
+        print("i:",i,"done[i]:",done[i])
     cv2.destroyAllWindows()
 
 
