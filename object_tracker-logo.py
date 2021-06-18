@@ -112,8 +112,10 @@ def main(_argv):
     objs = {}
     done = {}
     det = {}
+    fcount = 0
     while True:
         return_value, frame = vid.read()
+        fcoun = fcount+1
         if return_value:
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             image = Image.fromarray(frame)
@@ -310,6 +312,10 @@ def main(_argv):
     
     for i in done:
         print("i:",i,"done[i]:",done[i])
+    
+
+
+    print("frames per second",fcount/(end-start))
     cv2.destroyAllWindows()
 
 
