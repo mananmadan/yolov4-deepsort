@@ -233,7 +233,6 @@ def main(_argv):
             bbox = track.to_tlbr()
             class_name = track.get_class()
             # draw bbox on screen
-            '''
             color = colors[int(track.track_id) % len(colors)]
             color = [i * 255 for i in color]
             cv2.rectangle(frame, (int(bbox[0]), int(
@@ -242,7 +241,6 @@ def main(_argv):
                 len(class_name)+len(str(track.track_id)))*17, int(bbox[1])), color, -1)
             cv2.putText(frame, class_name + "-" + str(track.track_id),
                         (int(bbox[0]), int(bbox[1]-10)), 0, 0.75, (255, 255, 255), 2)
-            '''
 
             # if enable info flag then print details and get store the dict
             if FLAGS.info:
@@ -291,7 +289,6 @@ def main(_argv):
         # calculate frames per second of running detections
         fps = 1.0 / (time.time() - start_time)
         print("FPS: %.2f" % fps)
-        '''
         result = np.asarray(frame)
         result = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
 
@@ -301,7 +298,6 @@ def main(_argv):
         # if output flag is set, save video file
         if FLAGS.output:
             out.write(result)
-        '''
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
     logging.info("stopping the timer")
