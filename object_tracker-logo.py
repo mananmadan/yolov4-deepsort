@@ -270,6 +270,8 @@ def main(_argv):
                         if lv == logo:
                             found = 1
                             det[track.track_id][j] = (lv,ind+1)
+                            if ind+1 == 20: ## 20 times we have detected an object as the same one .. mean either we cannot detect it .. or we are already predicting the correct
+                                done[track.track_id] = (lv,ind+1)
                             break
                     if found == 0:
                         det[track.track_id].append((logo,1))
