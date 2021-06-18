@@ -256,7 +256,7 @@ def main(_argv):
                 img = frame[b:d, a:c, :]
                 (logo,score) = main_img(cat_indx,det_graph,img)
                 #based on score check if it is done
-                if score > 0.65:
+                if score > 0.50:
                     if track.track_id not in done:
                         done[track.track_id] = (logo,score)
                 
