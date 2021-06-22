@@ -227,8 +227,16 @@ def main(_argv):
         tracker.update(detections)
         
         ##TODO
-        ##check if all the trackids are done or not?
-            
+        left = 0
+        ## check if all the trackids are done or not?
+        for track in tracker.tracks:
+            if track.track_id not in done:
+                left = left + 1
+        
+        ##if no left .. no need to process
+        if left == 0:
+            continue   
+
         ## Full List
         fullist = getallboxes(cat_indx,det_graph,frame)
 
@@ -260,6 +268,25 @@ def main(_argv):
                 
                 ## TODO
                 ## search the fulllist for the current object id and get the max logo and score for the current object
+                ## frame[b:d,a:c,:]
+                ## timg = img[top:bottom,left:right,:]
+
+                for i in fullist:
+                    name = ""
+                    x = 0.00
+                    l = 0
+                    r = 0
+                    t = 0
+                    bt = 0
+                    [(name),(x),(l,r,t,bt)] = i
+                    ## check if this logo is inside the abcd rectangle
+                    if l >= a and r <= c and t >= b and bt <= d:
+                        ## inside the object
+                        if x > score:
+                            x = score
+                            logo = name
+                
+                print("Logo:",logo,"Score:",score)
                 
                 if track.track_id in done:
                     break
