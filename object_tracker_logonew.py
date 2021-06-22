@@ -283,7 +283,7 @@ def main(_argv):
                     if l >= a and r <= c and t >= b and bt <= d:
                         ## inside the object
                         if x > score:
-                            x = score
+                            score = x
                             logo = name
                 
                 print("Logo:",logo,"Score:",score)
