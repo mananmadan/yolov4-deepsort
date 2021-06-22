@@ -239,6 +239,7 @@ def main(_argv):
             continue   
 
         ## Full List
+        print("Running Detections")
         fullist = getallbox(cat_indx,det_graph,frame)
 
         # update tracks
