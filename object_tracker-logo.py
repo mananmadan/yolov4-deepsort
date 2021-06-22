@@ -250,7 +250,7 @@ def main(_argv):
                 c = int(bbox[2])
                 d = int(bbox[3])
                 if track.track_id in done:
-                    break
+                    continue
                 if class_name in ["person"]:
                     continue
                 img = frame[b:d, a:c, :]
