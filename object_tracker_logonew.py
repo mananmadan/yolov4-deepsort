@@ -231,6 +231,7 @@ def main(_argv):
         ## check if all the trackids are done or not?
         for track in tracker.tracks:
             if track.track_id not in done:
+                print("Track id left",track.track_id)
                 left = left + 1
         
         print("Trackers Left:",left)
@@ -266,7 +267,7 @@ def main(_argv):
                 c = int(bbox[2])
                 d = int(bbox[3])
                 logo = ""
-                score = 0.00
+                score = 0.000
                 
                 ## TODO
                 ## search the fulllist for the current object id and get the max logo and score for the current object
@@ -275,7 +276,7 @@ def main(_argv):
 
                 for i in fullist:
                     name = ""
-                    x = 0.00
+                    x = 0.000
                     l = 0
                     r = 0
                     t = 0
@@ -299,7 +300,7 @@ def main(_argv):
                     if track.track_id not in done:
                         done[track.track_id] = (logo,score)
                 
-                print("Detected:",(logo,score))
+                print("Detected:",(logo,score),"for tracker id",track.track_id)
                 if track.track_id not in det:
                     det[track.track_id] = [(logo,1)]
                 else:
