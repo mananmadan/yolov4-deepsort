@@ -230,6 +230,8 @@ def main(_argv):
         left = 0
         ## check if all the trackids are done or not?
         for track in tracker.tracks:
+            if not track.is_confirmed() or track.time_since_update > 1:
+                continue
             if track.track_id not in done:
                 print("Track id left",track.track_id)
                 left = left + 1
