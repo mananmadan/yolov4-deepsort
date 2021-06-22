@@ -1,4 +1,4 @@
-from single_inf import getallboxes
+from single_inf import getallbox
 from single_inf import pre
 from google.colab.patches import cv2_imshow
 from tools import generate_detections as gdet
@@ -238,7 +238,7 @@ def main(_argv):
             continue   
 
         ## Full List
-        fullist = getallboxes(cat_indx,det_graph,frame)
+        fullist = getallbox(cat_indx,det_graph,frame)
 
         # update tracks
         for track in tracker.tracks:
