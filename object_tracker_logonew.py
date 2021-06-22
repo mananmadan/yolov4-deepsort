@@ -294,9 +294,12 @@ def main(_argv):
                 print("Logo:",logo,"Score:",score)
                 
                 if track.track_id in done:
-                    break
-                if class_name in ["person"]:
                     continue
+                print("Track id",track.track_id)
+                if class_name in ["person"]:
+                    done[track.track_id] = ("person",-1)
+                    continue
+                print("Track id",track.track_id)
                 #based on score check if it is done
                 if score > 0.40:
                     if track.track_id not in done:
