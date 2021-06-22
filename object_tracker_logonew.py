@@ -233,6 +233,7 @@ def main(_argv):
             if track.track_id not in done:
                 left = left + 1
         
+        print("Trackers Left:",left)
         ##if no left .. no need to process
         if left == 0:
             continue   
