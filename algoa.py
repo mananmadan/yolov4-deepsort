@@ -114,6 +114,7 @@ def main(_argv):
     done = {}
     det = {}
     fcount = 0
+    correctthresh = 3
     while True:
         return_value, frame = vid.read()
         fcoun = fcount+1
@@ -251,7 +252,8 @@ def main(_argv):
                 c = int(bbox[2])
                 d = int(bbox[3])
                 if track.track_id in done:
-                    continue
+                    if len(done[track.track_id]) >= correctthresh:
+                        continue
                 if class_name in ["person"]:
                     continue
                 img = frame[b:d, a:c, :]
@@ -259,7 +261,9 @@ def main(_argv):
                 #based on score check if it is done
                 if score > 0.40:
                     if track.track_id not in done:
-                        done[track.track_id] = (logo,score)
+                        done[track.track_id] = [(logo,score)]
+                    else:
+                        done[track.track_id].append(logo,score)
                 
                 ## debug information
                 if FLAGS.debug:
@@ -322,7 +326,8 @@ def main(_argv):
                 print("Detected:",k)
     
     for i in done:
-        print("i:",i,"done[i]:",done[i])
+        for j in done[i]:
+            print("i:",i,"done[i]:",j)
     
     print("frames per second",frame_num/(end-start))
     cv2.destroyAllWindows()
