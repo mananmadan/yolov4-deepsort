@@ -266,7 +266,7 @@ def main(_argv):
                         (int(bbox[0]), int(bbox[1]-10)), 0, 0.75, (255, 255, 255), 2)
 
             # if enable info flag then print details and get store the dict
-            if FLAGS.info:
+            if FLAGS.algo:
                 ## class_name and track.track_id
                 a = int(bbox[0])
                 b = int(bbox[1])
