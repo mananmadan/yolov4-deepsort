@@ -45,7 +45,8 @@ flags.DEFINE_string('output_format', 'XVID',
 flags.DEFINE_float('iou', 0.45, 'iou threshold')
 flags.DEFINE_float('score', 0.50, 'score threshold')
 flags.DEFINE_boolean('dont_show', False, 'dont show video output')
-flags.DEFINE_boolean('info', False, 'show detailed info of tracked objects')
+flags.DEFINE_boolean('algo', False, 'apply algo')
+flags.DEFINE_boolean('debug',False,'show details of the tracked object and other info')
 flags.DEFINE_boolean('count', False, 'count objects being tracked on screen')
 
 
@@ -226,23 +227,26 @@ def main(_argv):
         tracker.predict()
         tracker.update(detections)
         
-        ##TODO
         left = 0
         ## check if all the trackids are done or not?
         for track in tracker.tracks:
             if not track.is_confirmed() or track.time_since_update > 1:
                 continue
             if track.track_id not in done:
-                print("Track id left",track.track_id)
+                if FLAGS.debug:
+                    print("Track id left",track.track_id)
                 left = left + 1
         
-        print("Trackers Left:",left)
+        if FLAGS.debug:
+            print("Trackers Left:",left)
+
         ##if no left .. no need to process
         if left == 0:
             continue   
 
         ## Full List
-        print("Running Detections")
+        if FLAGS.debug:
+            print("Running Detections")
         fullist = getallbox(cat_indx,det_graph,frame)
 
         # update tracks
@@ -271,7 +275,6 @@ def main(_argv):
                 logo = ""
                 score = 0.000
                 
-                ## TODO
                 ## search the fulllist for the current object id and get the max logo and score for the current object
                 ## frame[b:d,a:c,:]
                 ## timg = img[top:bottom,left:right,:]
@@ -290,22 +293,27 @@ def main(_argv):
                         if x > score:
                             score = x
                             logo = name
-                
-                print("Logo:",logo,"Score:",score)
+
+                if FLAGS.debug:
+                    print("Logo:",logo,"Score:",score)
                 
                 if track.track_id in done:
                     continue
-                print("Track id",track.track_id)
+                if FLAGS.debug:
+                    print("Track id",track.track_id)
                 if class_name in ["person"]:
                     done[track.track_id] = ("person",-1)
                     continue
-                print("Track id",track.track_id)
+                if FLAGS.debug:
+                    print("Track id",track.track_id)
                 #based on score check if it is done
                 if score > 0.40:
                     if track.track_id not in done:
                         done[track.track_id] = (logo,score)
-                
-                print("Detected:",(logo,score),"for tracker id",track.track_id)
+
+                if FLAGS.debug:
+                    print("Detected:",(logo,score),"for tracker id",track.track_id)
+
                 if track.track_id not in det:
                     det[track.track_id] = [(logo,1)]
                 else:
@@ -330,7 +338,8 @@ def main(_argv):
                 else:  # new class
                     objs[class_name] = [track.track_id]
                     # cv2_imshow(img)
-                print("Tracker ID: {}, Class: {},  BBox Coords (xmin, ymin, xmax, ymax): {}".format(
+                if FLAGS.debug:
+                    print("Tracker ID: {}, Class: {},  BBox Coords (xmin, ymin, xmax, ymax): {}".format(
                     str(track.track_id), class_name, (int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3]))))
 
         # calculate frames per second of running detections
