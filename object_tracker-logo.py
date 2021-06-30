@@ -45,7 +45,8 @@ flags.DEFINE_string('output_format', 'XVID',
 flags.DEFINE_float('iou', 0.45, 'iou threshold')
 flags.DEFINE_float('score', 0.50, 'score threshold')
 flags.DEFINE_boolean('dont_show', False, 'dont show video output')
-flags.DEFINE_boolean('info', False, 'show detailed info of tracked objects')
+flags.DEFINE_boolean('algo', False, 'run the algo')
+flags.DEFINE_boolean('debug',False,'show details of the tracked object and other info')
 flags.DEFINE_boolean('count', False, 'count objects being tracked on screen')
 
 
@@ -243,7 +244,7 @@ def main(_argv):
                         (int(bbox[0]), int(bbox[1]-10)), 0, 0.75, (255, 255, 255), 2)
 
             # if enable info flag then print details and get store the dict
-            if FLAGS.info:
+            if FLAGS.algo:
                 ## class_name and track.track_id
                 a = int(bbox[0])
                 b = int(bbox[1])
@@ -260,7 +261,11 @@ def main(_argv):
                     if track.track_id not in done:
                         done[track.track_id] = (logo,score)
                 
-                print("Detected:",(logo,score))
+                ## debug information
+                if FLAGS.debug:
+                    print("Detected:",(logo,score))
+                
+                
                 if track.track_id not in det:
                     det[track.track_id] = [(logo,1)]
                 else:
@@ -285,7 +290,9 @@ def main(_argv):
                 else:  # new class
                     objs[class_name] = [track.track_id]
                     # cv2_imshow(img)
-                print("Tracker ID: {}, Class: {},  BBox Coords (xmin, ymin, xmax, ymax): {}".format(
+
+                if FLAGS.debug:
+                    print("Tracker ID: {}, Class: {},  BBox Coords (xmin, ymin, xmax, ymax): {}".format(
                     str(track.track_id), class_name, (int(bbox[0]), int(bbox[1]), int(bbox[2]), int(bbox[3]))))
 
         # calculate frames per second of running detections
