@@ -330,10 +330,19 @@ def main(_argv):
                 print("Detected:",k)
     
     for i in done:
-        for j in done[i]:
-            print("i:",i,"done[i]:",j)
-    
-    print("frames per second",frame_num/(end-start))
+        if type(done[i]) is tuple:
+            print("id",i,"detected as:",done[i])
+        else:
+            maxscore = -30
+            id = -1
+            for j in done[i]:
+               (a,b) = j
+               if b > maxscore:
+                   maxscore = b
+                   id = a
+            print("id:",i,"detected as:",(maxscore,id))
+
+    print("Frames per Second",frame_num/(end-start))
     cv2.destroyAllWindows()
 
 
