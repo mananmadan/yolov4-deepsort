@@ -309,10 +309,11 @@ def main(_argv):
             out.write(result)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
+
     logging.info("stopping the timer")
     end = time.time()
     print("Time taken", end-start)
-    logging.info("dict")
+    logging.info("printing dict")
     for i in objs:
         print("Object detected:",i)
         for j in objs[i]:
