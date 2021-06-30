@@ -263,7 +263,7 @@ def main(_argv):
                     if track.track_id not in done:
                         done[track.track_id] = [(logo,score)]
                     else:
-                        done[track.track_id].append(logo,score)
+                        done[track.track_id].append((logo,score))
                 
                 ## debug information
                 if FLAGS.debug:
