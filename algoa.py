@@ -254,6 +254,10 @@ def main(_argv):
                 if track.track_id in done:
                     if len(done[track.track_id]) >= correctthresh:
                         continue
+                    if type(done[track.track_id]) is tuple:
+                       (a,b) = done[track.track_id]
+                       if b == 20:
+                          continue
                 if class_name in ["person","dining table"]:
                     continue
                 img = frame[b:d, a:c, :]
