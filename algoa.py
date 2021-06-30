@@ -254,7 +254,7 @@ def main(_argv):
                 if track.track_id in done:
                     if len(done[track.track_id]) >= correctthresh:
                         continue
-                if class_name in ["person"]:
+                if class_name in ["person","dining table"]:
                     continue
                 img = frame[b:d, a:c, :]
                 (logo,score) = main_img(cat_indx,det_graph,img)
