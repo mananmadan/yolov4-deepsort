@@ -114,6 +114,7 @@ def main(_argv):
     done = {}
     det = {}
     fcount = 0
+    correctthresh = 3
     while True:
         return_value, frame = vid.read()
         fcoun = fcount+1
@@ -298,7 +299,14 @@ def main(_argv):
                     print("Logo:",logo,"Score:",score)
                 
                 if track.track_id in done:
-                    continue
+                    if type(done[track.track_id]) is tuple:
+                        (a,b) = done[track.track_id]
+                        if b == 20:
+                            continue
+                    else:
+                        if len(done) >= correctthresh:
+                            continue 
+
                 if FLAGS.debug:
                     print("Track id",track.track_id)
                 if class_name in ["person"]:
@@ -309,7 +317,9 @@ def main(_argv):
                 #based on score check if it is done
                 if score > 0.40:
                     if track.track_id not in done:
-                        done[track.track_id] = (logo,score)
+                        done[track.track_id] = [(logo,score)]
+                    else:
+                        done[track.track_id].append((logo,score))
 
                 if FLAGS.debug:
                     print("Detected:",(logo,score),"for tracker id",track.track_id)
@@ -368,7 +378,17 @@ def main(_argv):
                 print("Detected:",k)
     
     for i in done:
-        print("i:",i,"done[i]:",done[i])
+        if type(done[i]) is tuple:
+            print("id:",i,"is detected as:",done[i])
+        else:
+            maxscore = -20.0
+            temp = done[i][0]
+            for j in done[i]:
+                (a,b) = j
+                if b > maxscore:
+                    temp = j
+                    maxscore = b
+            print("id:",i,"is detected as:",temp)
     
     print("frames per second",frame_num/(end-start))
     cv2.destroyAllWindows()
