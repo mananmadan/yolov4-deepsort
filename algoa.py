@@ -25,6 +25,8 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 physical_devices = tf.config.experimental.list_physical_devices('GPU')
 if len(physical_devices) > 0:
     tf.config.experimental.set_memory_growth(physical_devices[0], True)
+
+
 # deep sort imports
 # will only work in colab
 # import file for detections
@@ -60,9 +62,11 @@ def main(_argv):
     # initialize deep sort
     model_filename = 'model_data/mars-small128.pb'
     encoder = gdet.create_box_encoder(model_filename, batch_size=1)
+
     # calculate cosine distance metric
     metric = nn_matching.NearestNeighborDistanceMetric(
         "cosine", max_cosine_distance, nn_budget)
+        
     # initialize tracker
     tracker = Tracker(metric)
 
@@ -82,6 +86,7 @@ def main(_argv):
         output_details = interpreter.get_output_details()
         print(input_details)
         print(output_details)
+        
     # otherwise load standard tensorflow saved model
     else:
         saved_model_loaded = tf.saved_model.load(
@@ -251,6 +256,8 @@ def main(_argv):
                 b = int(bbox[1])
                 c = int(bbox[2])
                 d = int(bbox[3])
+
+                ## check if the track.track_id is already done?
                 if track.track_id in done:
                     if len(done[track.track_id]) >= correctthresh:
                         continue
@@ -258,22 +265,27 @@ def main(_argv):
                        (a,b) = done[track.track_id]
                        if b == 20:
                           continue
+                ## check if the class is such that there is no logo to be detected
                 if class_name in ["person","dining table"]:
                     continue
+
+                ## segement image and detect logo and score
                 img = frame[b:d, a:c, :]
                 (logo,score) = main_img(cat_indx,det_graph,img)
-                #based on score check if it is done
+
+                #case of high score : model is confident about the detected logo
                 if score > 0.40:
                     if track.track_id not in done:
                         done[track.track_id] = [(logo,score)]
                     else:
                         done[track.track_id].append((logo,score))
                 
-                ## debug information
                 if FLAGS.debug:
                     print("Detected:",(logo,score))
                 
-                
+                ## det dict : count of how many time the detection is runnning for each of the ids
+                ## and inc the count for current id and logo
+
                 if track.track_id not in det:
                     det[track.track_id] = [(logo,1)]
                 else:
@@ -290,14 +302,15 @@ def main(_argv):
                         det[track.track_id].append((logo,1))
 
                             
-                
+                ## objs : store the ids of all the objs detected
+                ## add the current id to the objs dict 
+                ## case of a new id or new class
                 if class_name in objs:
                     # new id with a class
                     if track.track_id not in objs[class_name]:
                         objs[class_name].append(track.track_id)
                 else:  # new class
                     objs[class_name] = [track.track_id]
-                    # cv2_imshow(img)
 
                 if FLAGS.debug:
                     print("Tracker ID: {}, Class: {},  BBox Coords (xmin, ymin, xmax, ymax): {}".format(
@@ -317,7 +330,8 @@ def main(_argv):
             out.write(result)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
-
+    ## Print outputs
+    ## fps , objs dict , done dict
     logging.info("stopping the timer")
     end = time.time()
     print("Time taken", end-start)
