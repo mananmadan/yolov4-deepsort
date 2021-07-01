@@ -20,11 +20,13 @@ from absl import app, flags, logging
 import tensorflow as tf
 import time
 import os
+
 # comment out below line to enable tensorflow logging outputs
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 physical_devices = tf.config.experimental.list_physical_devices('GPU')
 if len(physical_devices) > 0:
     tf.config.experimental.set_memory_growth(physical_devices[0], True)
+
 # deep sort imports
 # will only work in colab
 # import file for detections
@@ -60,9 +62,11 @@ def main(_argv):
     # initialize deep sort
     model_filename = 'model_data/mars-small128.pb'
     encoder = gdet.create_box_encoder(model_filename, batch_size=1)
+
     # calculate cosine distance metric
     metric = nn_matching.NearestNeighborDistanceMetric(
         "cosine", max_cosine_distance, nn_budget)
+
     # initialize tracker
     tracker = Tracker(metric)
 
@@ -82,6 +86,7 @@ def main(_argv):
         output_details = interpreter.get_output_details()
         print(input_details)
         print(output_details)
+
     # otherwise load standard tensorflow saved model
     else:
         saved_model_loaded = tf.saved_model.load(
@@ -104,6 +109,7 @@ def main(_argv):
         fps = int(vid.get(cv2.CAP_PROP_FPS))
         codec = cv2.VideoWriter_fourcc(*FLAGS.output_format)
         out = cv2.VideoWriter(FLAGS.output, codec, fps, (width, height))
+
 
     frame_num = 0
     # while video is running
