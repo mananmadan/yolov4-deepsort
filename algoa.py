@@ -330,6 +330,7 @@ def main(_argv):
             out.write(result)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
+
     ## Print outputs
     ## fps , objs dict , done dict
     logging.info("stopping the timer")
